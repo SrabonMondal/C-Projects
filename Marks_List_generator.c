@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<conio.h>
 #include<string.h>
+int l;
 FILE* fp;
 struct report
 {
@@ -105,6 +106,11 @@ void display(report *r, char sub[5][10] ,int f, int n)
 }
 void main()
 {  
+    FILE *fr;
+    fr= fopen("MarkList.csv","r");
+    fseek(fr,0,SEEK_END);
+    l= ftell(fr);
+    fclose(fr);
     int n,f=0; char sub[6][10]={"Name","Physics","Maths","C-lang","Percentage","\0"};
     report *r;
     printf("Enter number of students-");
@@ -115,13 +121,16 @@ void main()
 
 void fileprint(report *r, char sub[5][10], int n)
 {
-    fp= fopen("MarkList.csv","w");
+    fp= fopen("MarkList.csv","a+");
     if(fp==NULL) printf("Again");
+    if(l==0)
+    {
     for(int i=0;i<5;i++)
         {
             fputs(sub[i],fp);
             fprintf(fp,",");
         }
+    }
     char info[100];
         for(int i=0;i<n;i++)
         {
